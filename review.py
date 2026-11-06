@@ -137,7 +137,8 @@ def evaluate(cv_txt, carta_txt=None, jd_txt=None):
         body = cv_txt.lower()
         hit = sum(1 for k in kws if re.search(r"\b" + re.escape(k) + r"\b", body))
         scores["4 Exact keywords"] = min(10, round(hit / max(1, len(kws) * 0.4) * 10))
-        notes["4 Exact keywords"] = f"{hit}/{len(kws)} present in the body"
+        cov = hit / max(1, len(kws))
+        notes["4 Exact keywords"] = f"{hit}/{len(kws)} present in the body ({cov:.0%} coverage)"
     else:
         scores["4 Exact keywords"] = 7
         notes["4 Exact keywords"] = "no job description given - neutral score"
@@ -146,7 +147,8 @@ def evaluate(cv_txt, carta_txt=None, jd_txt=None):
     half = cv_txt[:len(cv_txt) // 2].lower()
     dens = sum(1 for k in keywords(cv_txt, 20) if k in half)
     scores["5 First half carries the terms"] = min(10, round(dens / 20 * 10))
-    notes["5 First half carries the terms"] = f"{dens}/20 key terms in the first half"
+    notes["5 First half carries the terms"] = (f"{dens}/20 key terms in the first half "
+                                               f"({dens/20:.0%})")
 
     # 6. Tone
     weak = ["humbly", "i believe", "i think", "hopefully", "perhaps", "maybe",

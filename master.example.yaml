@@ -74,3 +74,16 @@ competencias:
     Portuguese: Native
     English: Advanced
     Spanish: Intermediate
+
+# Per-area summaries. `build_package.py --area "<name>"` uses one of these,
+# which lets you generate a targeted resume without a job posting.
+resumos_por_area:
+  Solar / PV: >
+    Electrical Engineer with 18+ years in the energy industry: photovoltaic system
+    design, power systems and pre-construction estimation, licensed in Brazil (CREA).
+    Designed grid-connected solar PV from 2 kW to 25 kW end to end - array sizing,
+    load analysis, protection coordination and utility interconnection.
+  Project controls: >
+    Project Engineer with 18+ years managing capital projects in industrial and energy
+    environments. Owns scope, cost estimation, procurement, schedule and stakeholder
+    reporting.
