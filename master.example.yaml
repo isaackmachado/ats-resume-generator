@@ -1,0 +1,76 @@
+# Master Resume — Your Name
+# Single source of truth. build_package.py rewrites from here — it NEVER invents.
+# Example file. Copy to master.yaml and replace with your own history.
+
+identidade:
+  nome: Your Name
+  titulo_americano: Electrical Engineer | Power Systems & Solar PV
+  local: Your City, Country (UTC-3)
+  email: you@example.com
+  telefone: "+55 00 00000-0000"
+  linkedin: "linkedin.com/in/your-handle"
+  portfolio: ""
+  disponibilidade: "Remote (UTC-3) | Independent contractor (PJ), 20h/week"
+  registro: "CREA 00000/D-XX (Brazil)"
+
+resumo:
+  default: >
+    Electrical Engineer with 18+ years in power systems design, photovoltaic generation
+    and capital project management, licensed in Brazil (CREA). Designed PV systems from
+    2 kW to 25 kW and LV/MV/HV installations up to 138 kV. Master's candidate in BIM
+    Project Management (2025-2026).
+
+
+experiencia:
+  - empresa: Example Corp
+    cargo: Analyst I — Electrical Engineer (outsourced to a public agency)
+    local: Your City, Country
+    inicio: 2022-05
+    fim: atual
+    bullets:
+      - "Inspect electrical projects and construction, issuing technical follow-up and acceptance reports for each of 4 completed phases."
+      - "Draft technical requirements for Phase 2 contracting, evaluate proposals and take part in technical negotiation on a multi-million programme."
+      - "Review the contractor's electrical designs and propose technical solutions for divergences found during execution."
+
+  - empresa: Earlier Employer
+    cargo: Senior Electrical Engineer
+    local: Same City
+    inicio: 2019-11
+    fim: 2022-02
+    bullets:
+      - "Directed senior technical oversight across 2 states, supervising field operations and electrical scope."
+      - "Authored technical progress and status reports for programme management."
+
+formacao:
+  - curso: Master's in BIM Project Management & Construction Innovation (in progress)
+    instituicao: Example University
+    ano: "2025-2026"
+  - curso: Specialization in Environmental Analysis
+    instituicao: Example University 2
+    ano: "2006"
+  - curso: B.Eng. Industrial Electrical Engineering
+    instituicao: Example University 3
+    ano: "2005"
+  - curso: Electrical Technician
+    instituicao: Technical School
+    ano: "1999"
+
+competencias:
+  engineering:
+    - Power systems, LV/MV/HV
+    - Photovoltaic (PV) system design
+    - Lightning protection (SPDA)
+    - Technical specifications & bills of materials
+    - Site inspection & acceptance
+  software:
+    - AutoCAD
+    - Revit
+    - Excel (advanced)
+  project_management:
+    - Capital project management
+    - Cost estimation & budgeting
+    - Technical requirements drafting
+  idiomas:
+    Portuguese: Native
+    English: Advanced
+    Spanish: Intermediate
