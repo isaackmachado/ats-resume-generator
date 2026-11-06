@@ -22,24 +22,32 @@ An ATS parses text. A resume can look perfect on screen and still fail:
 So after generating the file, the tool reopens the PDF with `pdftotext` and `pdfinfo` and checks the conditions that matter:
 
 ```
-[OK] 1 pagina
-[OK] texto selecionavel
-[OK] tem EXPERIENCE
-[OK] tem EDUCATION
-[OK] tem SKILLS
-[OK] email presente
-[OK] sem caractere de falha
+[OK] 1 page
+[OK] selectable text
+[OK] has EXPERIENCE
+[OK] has EDUCATION
+[OK] has SKILLS
+[OK] email present
+[OK] no replacement character
 ```
 
 If any check fails it exits non-zero. A resume that is 2 pages, or that lost its email to a header, never reaches the "done" state.
 
 ---
 
-## Two bugs this caught on itself
+## Two bugs the output check caught
 
 **The `List Bullet` trap.** Using python-docx's built-in `List Bullet` style writes the bullet as the Symbol font glyph `\uf0b7`. The PDF renders it, a human sees a bullet, and the ATS sees a private-use codepoint. Fixed by writing a literal `•` into the run with a negative first-line indent — no list style, no font dependency.
 
-**The invisible font substitution.** The generator asked for Calibri, which does not exist in the headless Linux container doing the DOCX to PDF conversion. LibreOffice quietly substituted Noto Serif: different metrics, different line breaks, different page count. The audit checks the PDF, so the substitution showed up. Fixed by using a font that is actually installed and verifying with `pdffonts` that the embedded font is the expected one.
+**The invisible font substitution.** The generator asked for Calibri, which does not exist in the headless Linux container doing the DOCX to PDF conversion. LibreOffice quietly substituted Noto Serif: different metrics, different line breaks, different page count. The audit is what caught it — the page count and the extracted text changed, not the DOCX. Fixed by using a font that is actually installed (`Open Sans`, present in the container).
+
+`pdffonts` on the output confirms the embedded fonts are the expected ones, but that is a manual check, **not** part of the automated audit:
+
+```
+$ pdffonts out/resume.pdf
+BAAAAA+OpenSans-Bold      TrueType   WinAnsi   yes yes yes
+CAAAAA+OpenSans-Regular   TrueType   WinAnsi   yes yes yes
+```
 
 Both were invisible by reading the code. They only appeared by running it and reading the output — which is the reason the audit step exists at all.
 
@@ -54,7 +62,16 @@ The generator is allowed to **reorder and select** from the master file. It is n
 - `bullets_por_vaga` — the bullets to use for that role, keyed by job id.
 - `competencias_por_vaga` — competencies reordered so what the job asks for comes first.
 
-When no per-job override exists, bullets are ranked by how many of the job description's keywords they contain. Measured effect on the domain-term coverage of the generated resume: **27% before reordering, 85-88% after** — with no new claims added.
+When no per-job override exists, bullets are ranked by how many of the job description's keywords they contain.
+
+In one measured experiment the domain-term coverage of the generated resume went from **27% to 85-88%**, with no new claims added — only different bullets from the same master file were selected.
+
+That was a hand measurement. What the tool reports by itself is in the review output: item 4 prints the raw coverage, so the same comparison can be re-run for any posting:
+
+```bash
+python3 review.py out/resume.pdf --jd job.txt
+# [OK] 4 Exact keywords   10/10   13/19 present in the body (68% coverage)
+```
 
 ---
 
